@@ -1,0 +1,121 @@
+@import "tailwindcss";
+
+/*
+ * As cores (--bg, --accent, --sidebar-bg…) e o raio (--radius-ui) NÃO ficam aqui: vêm da marca da instalação
+ * (src/brands/<BRAND>/marca.ts), injetadas pelo layout como <style> (src/lib/marca/tema.ts). Este arquivo só
+ * mapeia as variáveis para os utilitários do Tailwind. Hierarquia vem de peso tipográfico e espaçamento;
+ * superfícies usam borda hairline, sem sombra (sombra só em modal/popover).
+ */
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-fg: var(--fg);
+  --color-line: var(--line);
+  --color-paper: var(--paper);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-text: var(--accent-text);
+  --color-on-accent: var(--on-accent);
+  --color-moss: var(--moss);
+  --color-amber: var(--amber);
+  --color-amber-ink: var(--amber-ink);
+  --color-crimson: var(--crimson);
+  --color-sidebar: var(--sidebar-bg);
+  --color-sidebar-fg: var(--sidebar-fg);
+  --color-sidebar-muted: var(--sidebar-muted);
+  --color-overlay: var(--overlay);
+  --font-sans: var(--font-marca-texto), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-marca-display), ui-sans-serif, system-ui, sans-serif;
+  --font-brand: var(--font-oswald), ui-sans-serif, system-ui, sans-serif;
+  --radius-ui: var(--radius-ui);
+}
+
+/* Logotipo da marca que acompanha o tema: a versão para fundo escuro só aparece com data-theme="dark". */
+.logo-tema-escuro {
+  display: none;
+}
+:root[data-theme="dark"] .logo-tema-claro {
+  display: none;
+}
+:root[data-theme="dark"] .logo-tema-escuro {
+  display: revert;
+}
+
+html {
+  background: var(--bg);
+  color: var(--fg);
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent-text);
+  outline-offset: 2px;
+}
+
+dialog::backdrop {
+  background: var(--overlay);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Command palette (cmdk) */
+[cmdk-root] {
+  display: flex;
+  flex-direction: column;
+}
+[cmdk-input] {
+  width: 100%;
+  background: transparent;
+  border: 0;
+  outline: 0;
+  font-size: 16px;
+  padding: 16px 16px 16px 44px;
+  color: var(--fg);
+}
+[cmdk-input]::placeholder {
+  color: var(--muted);
+}
+[cmdk-list] {
+  max-height: min(60vh, 420px);
+  overflow-y: auto;
+  padding: 8px;
+  border-top: 1px solid var(--line);
+}
+[cmdk-group-heading] {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  padding: 8px 8px 4px;
+}
+[cmdk-item] {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: var(--radius-ui);
+  cursor: pointer;
+  color: var(--fg);
+}
+[cmdk-item][data-selected="true"] {
+  background: color-mix(in oklab, var(--line) 60%, transparent);
+}
+[cmdk-empty] {
+  padding: 24px 12px;
+  text-align: center;
+  color: var(--muted);
+}
